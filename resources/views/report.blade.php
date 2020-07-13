@@ -6,6 +6,17 @@
                     Bienvenido - Sistema de incidencias
                 </div>
                 <div class="panel-body">
+
+                    @if(count($errors) >0)
+                        <div class="alert aler-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form action="" method="POST">
 
                         {{csrf_field()}}
@@ -13,7 +24,7 @@
                         <div class="form-group">
                             <label for="category_id">Categoría</label>
                             <select name="category_id" class="form-control">
-                                <option value="0">General</option>
+                                <option value="">General</option>
                                 @foreach($categories as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
@@ -31,12 +42,12 @@
 
                         <div class="form-group">
                             <label for="title">Título</label>
-                            <input type="text" name="title" class="form-control">
+                            <input type="text" name="title" class="form-control" value="{{old('title')}}">
                         </div>
 
                         <div class="form-group">
                             <label for="description">Descripción</label>
-                            <textarea name="description" class="form-control"></textarea>
+                            <textarea name="description" class="form-control">{{('description')}}</textarea>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-primary">Registrar incidencia</button>

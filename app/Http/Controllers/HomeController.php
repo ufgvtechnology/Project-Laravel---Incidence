@@ -44,6 +44,23 @@ class HomeController extends Controller
 
         //método dd
         //dd($request->all());
+        $rules=[
+            'category_id' => 'sometimes|exists:categories,id',
+            'severity' =>'required|in:M,N,A',
+            'title' => 'required|min:5',
+            'description'=>'required|min:15',
+        ];
+
+        $messages=[ 
+
+            'category_id.exists' =>'La categoría seleccionada no existe en BD',
+            'title.required'   => 'Ingrese título de incidencia',
+            'title.min' =>'El título debe presetar al menos  5 caracteres',
+            'description.min' =>'La descripción deberá contener al menos 15 caracteres'
+        ];
+
+        $this-> validate($request,$rules,$messages);
+
 
         $incident = new Incident();
         $incident->category_id = $request->input('category_id') ?:null;
