@@ -54,8 +54,10 @@
                         <div class="col-md-6">
                             <p>Categorías</p>
                             <form action="/categorias" method="POST" class="form-inline">
+                            {{csrf_field()}}
+                                <input type="hidden" name="project_id" value="{{$project->id}}">
                                 <div class="form-group">
-                                        <input type="text" name="" placeholder="Ingrese nombre" class="form-control">
+                                        <input type="text" name="name" placeholder="Ingrese nombre" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-primary">Añadir</button>
@@ -70,25 +72,29 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($categories as $category)
                                         <tr>
-                                            <td>Proyecto A</td>
+                                            <td>{{$category-> name}}</td>
                                             <td>
-                                                <a href="" class="btn btn-primary btn-sm" title="Editar">
+                                                <button type="button" data-category="{{$category->id}}" class="btn btn-primary btn-sm" title="Editar">
                                                     <span class="glyphicon glyphicon-pencil"></span>
-                                                </a>
-                                                <a href="" class="btn btn-danger btn-sm" title="Dar de baja">
+                                                </button>
+                                                <a href="/categoria/{{$category->id}}/eliminar" class="btn btn-danger btn-sm" title="Dar de baja">
                                                     <span class="glyphicon glyphicon-remove"></span>
                                                 </a>
                                             </td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                         </div>
                          <div class="col-md-6">
                             <p>Niveles</p>
                                  <form action="/niveles" method="POST" class="form-inline">
+                                    {{csrf_field()}}
+                                        <input type="hidden" name="project_id" value="{{$project->id}}">
                                         <div class="form-group">
-                                                <input type="text" name="" placeholder="Ingrese nivel" class="form-control">
+                                                <input type="text" name="name" placeholder="Ingrese nivel" class="form-control">
                                         </div>
                                         <div class="form-group">
                                             <button class="btn btn-primary">Añadir</button>
@@ -104,22 +110,90 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($levels as $key => $level)
                                         <tr>
-                                            <td>Proyecto A</td>
-                                            <td>N1</td>
+                                            <td>N{{$key+1}}</td>
+                                            <td>{{$level->name}}</td>
                                             <td>
-                                                <a href="" class="btn btn-primary btn-sm" title="Editar">
+                                                <button type="button" data-level="{{$level->id}}" class="btn btn-primary btn-sm" title="Editar">
                                                     <span class="glyphicon glyphicon-pencil"></span>
-                                                </a>
-                                                <a href="" class="btn btn-danger btn-sm" title="Dar de baja">
+                                                </button>
+                                                <a href="/nivel/{{$level->id}}/eliminar" class="btn btn-danger btn-sm" title="Dar de baja">
                                                     <span class="glyphicon glyphicon-remove"></span>
                                                 </a>
                                             </td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+   
+
+@endsection
+     <!-- Modal Categorias-->
+        <div class="modal fade" id="modalEditCategory" tabindex="-1" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Editar categoría</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="/categoria/editar" method="POST">
+                    {{csrf_field()}}
+                        <input name="category_id" id="category_id" type="" value="">
+                        <form-group>
+                                <label for="name">Nombre de la categoría</label>
+                                <input type="text" class="form-control" name="name" id="category_name" value="">
+                        </form-group>
+                   
+              
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                      </div>
+               </form>
+               </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Modal Niveles-->
+        <div class="modal fade" id="modalEditLevel" tabindex="-1" role="dialog" >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Editar nivel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="/nivel/editar" method="POST">
+                    {{csrf_field()}}
+                        <input name="level_id" id="level_id" type="hidden" value="">
+                        <form-group>
+                                <label for="name">Nombre del nivel</label>
+                                <input type="text" class="form-control" name="name" id="level_name" value="">
+                        </form-group>
+                   
+              </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                      </div>
+               </form>
+            </div>
+          </div>
+        </div>
+@section('scripts')
+    <script src="/js/admin/projects/edit.js" type="text/javascript"></script>
 @endsection

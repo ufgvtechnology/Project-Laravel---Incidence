@@ -66,14 +66,14 @@
                                 <td>{{$project->description}}</td>
                                 <td>{{$project->start ?: 'No se indico fecha de inicio'}}</td>
                                 <td>
-                                    <a href="/proyecto/{{$project->id}}" class="btn btn-primary " title="Editar">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
                                 @if($project->trashed())
                                     <a href="/proyecto/{{$project->id}}/restaurar" class="btn btn-warning" title="Restaurar">
                                             <span class="glyphicon glyphicon-remove"></span>
                                     </a>
                                 @else
+                                    <a href="/proyecto/{{$project->id}}" class="btn btn-primary " title="Editar">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
                                     <a href="/proyecto/{{$project->id}}/eliminar" class="btn btn-danger" title="Dar de baja">
                                             <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
